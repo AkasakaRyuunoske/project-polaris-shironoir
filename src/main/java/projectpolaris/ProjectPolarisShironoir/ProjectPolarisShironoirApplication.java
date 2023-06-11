@@ -21,19 +21,19 @@ public class ProjectPolarisShironoirApplication {
 		SpringApplication.run(ProjectPolarisShironoirApplication.class, args);
 	}
 
-	@Bean
-	public NewTopic topic() {
-		return TopicBuilder.name("UtsuP")
-				.partitions(1)
-				.replicas(1)
-				.build();
-	}
-
-	@KafkaListener(id = "Sayuri", topics = "UtsuP")
-	public void listen(String in) {
-		log.info(in);
-	}
-
+//	@Bean
+//	public NewTopic topic() {
+//		return TopicBuilder.name("UtsuP")
+//				.partitions(1)
+//				.replicas(1)
+//				.build();
+//	}
+//
+//	@KafkaListener(id = "Sayuri", topics = "UtsuP")
+//	public void listen(String in) {
+//		log.info(in);
+//	}
+//
 //	@Bean
 //	public ApplicationRunner runner(KafkaTemplate<String, String> template) {
 //		return args -> {
