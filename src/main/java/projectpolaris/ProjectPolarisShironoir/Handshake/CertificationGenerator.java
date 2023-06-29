@@ -38,12 +38,17 @@ public class CertificationGenerator {
     private PublicKey publicKey;
     private PrivateKey privateKey;
 
-    public X509Certificate generateCertification() throws NoSuchAlgorithmException, CertificateException, IOException, OperatorCreationException {
+    public X509Certificate generateCertification() {
 
         log.info("Certification generation started");
         log.info("server name : " + serverName);
 
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        KeyPairGenerator keyPairGenerator = null;
+        try {
+            keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
 // Step 3: Initialize the KeyGenerator with a certain keysize
         keyPairGenerator.initialize(512);
 // Step 4: Generate the key pairs
@@ -52,7 +57,12 @@ public class CertificationGenerator {
         privateKey = keyPair.getPrivate();
         publicKey = keyPair.getPublic();
 
-        X509Certificate certificate = selfSign(keyPair, "CN=" + serverName);
+        X509Certificate certificate = null;
+        try {
+            certificate = selfSign(keyPair, "CN=" + serverName);
+        } catch (OperatorCreationException | CertificateException | IOException e) {
+            throw new RuntimeException(e);
+        }
 
         log.info("Generated certificate is: \n\n" + certificate.toString());
 
